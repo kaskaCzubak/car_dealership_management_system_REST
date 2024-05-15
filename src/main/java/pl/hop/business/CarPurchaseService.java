@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -41,9 +42,13 @@ public class CarPurchaseService {
     }
 
     private Customer findOrCreateCustomer(CarPurchaseRequest request){
-        return request.getExistingCustomerEmail().isBlank()
-                ? createNewCustomer(request)
-                : customerService.findCustomer(request.getExistingCustomerEmail());
+        return existingCustomerEmailExists(request.getExistingCustomerEmail())
+                ? customerService.findCustomer(request.getExistingCustomerEmail())
+                : createNewCustomer(request);
+    }
+
+    private boolean existingCustomerEmailExists(String email) {
+        return Objects.nonNull(email) && !email.isBlank();
     }
 
 

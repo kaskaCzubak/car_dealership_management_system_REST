@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
     @Bean
-    public static ObjectMapper objectMapper() {
+    public static ObjectMapper objectMapper() { //TODO Przez te faktyczne ustawienia na poziomie ObjectMappera ja manipuluje tym jak ma zostać wykonana zamiana jsonów na obiektyJava i odwrotnie
         return new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .registerModule(new Jdk8Module())
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) //TODO jak tutaj damy true to wyjdzie że nasza data zostanie zwrócona jako ciąg liczb 1759320000
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }

@@ -58,12 +58,9 @@ public class PurchaseController {
     @PostMapping(value = PURCHASE)
     public String makePurchase(
         @Valid @ModelAttribute("carPurchaseDTO") CarPurchaseDTO carPurchaseDTO,
-        BindingResult result,
         ModelMap model
     ) {
-        if (result.hasErrors()) {
-            return "error";
-        }
+
         CarPurchaseRequest request = carPurchaseMapper.map(carPurchaseDTO);
         Invoice invoice = carPurchaseService.purchase(request);
 

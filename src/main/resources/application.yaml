@@ -8,9 +8,6 @@ api:
     url: https://api.cepik.gov.pl
 
 spring:
-  security:
-    enabled: false
-#    TODO nigdy tak nie robic bo moze przez przypadek wylaczyc security w aplikacji
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
