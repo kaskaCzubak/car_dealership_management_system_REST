@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${springBootDependencyManagementVersion}"
+    id "org.openapi.generator" version "${openapiGeneratorVersion}"
 }
 
 group = 'pl.hop'
@@ -24,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux' //TODO zależność potrzebna do klienta WebClient
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     //db
@@ -35,16 +37,62 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation "org.mapstruct:mapstruct:$mapstructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBinding}"
 
-    //tests
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:postgresql'
+    // api
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocOpenApiVersion}"
+
+    implementation "org.openapitools:jackson-databind-nullable:${jacksonDatabindNullableVersion}"
+    implementation "javax.annotation:javax.annotation-api:${javaxAnnotationApiVersion}"
+
+    implementation "io.swagger:swagger-annotations:${swaggerAnnotationsVersion}"
+    implementation "com.google.code.findbugs:jsr305:${jsr305Version}"
+
+    //test
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+
+    //integration test
+    // TODO Ta zależność musi być przed wiremock standalone
+    testImplementation "org.slf4j:slf4j-api:${wiremockSlf4jVersion}"
+    testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
 }
+
+dependencyManagement {
+    imports{
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
+}
+
+// TODO http://www.cepik.gov.pl/interfejs-dla-cepik źródło naszego zewnętrznego API
+//TODO https://api.cepik.gov.pl/doc dokumentacja Swagger
+openApiGenerate {
+    generatorName = "java"
+    library = "webclient"
+    configOptions = [
+            serializableModel : "true",
+            dateLibrary : "java8",
+            serializationLibrary: "jackson"
+    ]
+
+    outputDir = "$buildDir/generated-sources/openapi".toString()
+    inputSpec = "$rootDir/src/main/resources/contracts/cepik-1.2.3.json".toString()
+    apiPackage = "pl.hop.infrastructure.cepik.api"
+    modelPackage = "pl.hop.infrastructure.cepik.model"
+}
+
+sourceSets {
+    main {
+        java.srcDirs += "$buildDir/generated-sources/openapi/src/main/java"
+    }
+}
+
+compileJava.dependsOn tasks.openApiGenerate
 
 test {
     useJUnitPlatform()
