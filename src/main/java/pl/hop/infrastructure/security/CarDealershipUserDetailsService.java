@@ -1,4 +1,4 @@
-package pl.hop.api.security;
+package pl.hop.infrastructure.security;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

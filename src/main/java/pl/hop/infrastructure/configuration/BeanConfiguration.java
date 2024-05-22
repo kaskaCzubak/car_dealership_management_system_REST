@@ -19,7 +19,7 @@ public class BeanConfiguration {
                 .registerModule(new Jdk8Module())
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) //TODO jak tutaj damy true to wyjdzie że nasza data zostanie zwrócona jako ciąg liczb 1759320000
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL); // TODO jesli jakies pole w jsonie jest nullem wtedy go nie ma
     }
 }
 

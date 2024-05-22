@@ -1,4 +1,4 @@
-package pl.hop.api.security;
+package pl.hop.infrastructure.security;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
