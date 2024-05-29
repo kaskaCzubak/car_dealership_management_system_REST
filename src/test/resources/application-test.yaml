@@ -1,6 +1,11 @@
+api:
+  cepik:
+    url: http://localhost:9999
+
 spring:
   security:
     enabled: false
+#  TODO wyłączenie security nie robic tak przy pushu do repo tylko lokalnie
   jpa:
     hibernate:
       ddl-auto: validate

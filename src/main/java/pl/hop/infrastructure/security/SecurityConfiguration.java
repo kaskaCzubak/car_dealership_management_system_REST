@@ -18,68 +18,85 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfiguration {
+public class SecurityConfiguration  {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(
-            PasswordEncoder passwordEncoder,
-            UserDetailsService userDetailsService
-    ) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userDetailsService);
-        return provider;
-    }
+//    TODO @Bean
+//    public DaoAuthenticationProvider authenticationProvider(
+//            PasswordEncoder passwordEncoder,
+//            UserDetailsService userDetailsService
+//    ) {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setPasswordEncoder(passwordEncoder);
+//        provider.setUserDetailsService(userDetailsService);
+//        return provider;
+//    }
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager(
+//            HttpSecurity http,
+//            AuthenticationProvider authenticationProvider
+//    ) throws Exception {
+//        return http
+//                .getSharedObject(AuthenticationManagerBuilder.class)
+//                .authenticationProvider(authenticationProvider)
+//                .build();
+//    }
 
     @Bean
-    public AuthenticationManager authenticationManager(
+    public AuthenticationManager authManager(
             HttpSecurity http,
-            AuthenticationProvider authenticationProvider
-    ) throws Exception {
-        return http
-                .getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(authenticationProvider)
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailService
+    )
+            throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailService)
+                .passwordEncoder(passwordEncoder)
+                .and()
                 .build();
     }
 
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing = true)
     SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {
-        return http
-                .csrf((csrf) -> csrf.disable()) // or method reference
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/error", "/images/oh_no.png").permitAll()
-                        .requestMatchers("/mechanic/**").hasAnyAuthority("MECHANIC")
-                        .requestMatchers("/salesman/**", "/purchase/**", "/service/**").hasAnyAuthority("SALESMAN")
-                        .requestMatchers("/", "/car/**", "/images/**").hasAnyAuthority("MECHANIC","SALESMAN")
-                        .requestMatchers("/api/**").hasAnyAuthority("REST_API")
-                )
-                .formLogin(formLogin -> formLogin.permitAll()) // or method reference
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .permitAll()
-                )
-                .build();
+        http.csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/login", "/error", "/images/oh_no.png").permitAll()
+                .requestMatchers("/mechanic/**").hasAnyAuthority("MECHANIC")
+                .requestMatchers("/salesman/**", "/purchase/**", "/service/**").hasAnyAuthority("SALESMAN")
+                .requestMatchers("/", "/car/**", "/images/**").hasAnyAuthority("MECHANIC", "SALESMAN")
+                .requestMatchers("/api/**").hasAnyAuthority("REST_API")
+                .and()
+                .formLogin()
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
+
+        return http.build();
     }
+
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
-        return http
-                .csrf((csrf) -> csrf.disable()) // or method reference
-                .authorizeHttpRequests(requests -> requests
-                        .anyRequest()
-                        .permitAll()
-                )
-                .build();
+        http.csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .anyRequest()
+                .permitAll();
+
+        return http.build();
     }
+
 
 
 }

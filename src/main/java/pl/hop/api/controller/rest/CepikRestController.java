@@ -55,7 +55,7 @@ public class CepikRestController {
     @GetMapping(value = CEPIK_RANDOM)
     public CepikVehicleDTO cepikRandomVehicle(
             @Parameter(description = "First vehicle registration date interval beginning")
-            // @Parameter będzie wykorzystane przez dokumentację Swagger
+            //TODO @Parameter będzie wykorzystane przez dokumentację Swagger
             @RequestParam(value = "firstRegistrationDateFrom")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate firstRegistrationDateFrom,
             @Parameter(description = "First vehicle registration date interval ending")

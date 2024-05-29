@@ -17,7 +17,7 @@ import pl.hop.domain.Invoice;
 @RequestMapping(PurchaseRestController.API_PURCHASE)
 public class PurchaseRestController {
 
-     static final String API_PURCHASE = "api/purchase";
+     public static final String API_PURCHASE = "/api/purchase";
 
      private final CarPurchaseService carPurchaseService;
      private final CarPurchaseMapper carPurchaseMapper;
@@ -27,7 +27,7 @@ public class PurchaseRestController {
      public CarsToBuyDTO carsPurchaseData() {
           return CarsToBuyDTO.builder()
                   .carsToBuy(carPurchaseService.availableCars().stream() //TODO tutaj potrzebuje przekazać moje samochody czyli będę potrzebować serwisu i pozniej mappera
-                          .map(carPurchaseMapper::map) // TODO a->carPurchaseMapper.map(a)
+                          .map(car -> carPurchaseMapper.map(car)) // TODO a->carPurchaseMapper.map(a)
                           .toList())
                   .build();
      }
