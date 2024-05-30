@@ -1,9 +1,15 @@
 package pl.hop.api.controller.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.hop.api.dto.CarPurchaseDTO;
+import pl.hop.api.dto.CarServiceRequestsDTO;
 import pl.hop.api.dto.CarsToBuyDTO;
 import pl.hop.api.dto.InvoiceDTO;
 import pl.hop.api.dto.mapper.CarPurchaseMapper;
@@ -23,6 +29,26 @@ public class PurchaseRestController {
      private final CarPurchaseMapper carPurchaseMapper;
      private final InvoiceMapper invoiceMapper;
 
+     @Operation(summary = "Get available cars",
+             description = " This endpoint returns a list of cars available at the dealer.")
+     @ApiResponses(value = {
+             @ApiResponse(
+                     responseCode = "200",
+                     description = "Successful operation",
+                     content = {
+                             @Content(
+                                     mediaType = "application/json",
+                                     schema = @Schema(
+                                             implementation = CarsToBuyDTO.class
+                                     )
+                             )
+                     }),
+             @ApiResponse(
+                     responseCode = "400",
+                     description = "Invalid input",
+                     content = @Content),
+
+     })
      @GetMapping
      public CarsToBuyDTO carsPurchaseData() {
           return CarsToBuyDTO.builder()
@@ -32,6 +58,26 @@ public class PurchaseRestController {
                   .build();
      }
 
+     @Operation(summary = "Make a purchase for a car",
+             description = "This endpoint returns invoice after the purchase has been made.")
+     @ApiResponses(value = {
+             @ApiResponse(
+                     responseCode = "200",
+                     description = "Successful operation",
+                     content = {
+                             @Content(
+                                     mediaType = "application/json",
+                                     schema = @Schema(
+                                             implementation = InvoiceDTO.class
+                                     )
+                             )
+                     }),
+             @ApiResponse(
+                     responseCode = "400",
+                     description = "Invalid input",
+                     content = @Content),
+
+     })
      @PostMapping
      public InvoiceDTO makePurchase(
              @Valid @RequestBody CarPurchaseDTO carPurchaseDTO

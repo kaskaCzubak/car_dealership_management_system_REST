@@ -34,7 +34,7 @@ public class CepikRestController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "CEPIK vehicle found",
+                    description = "Successful operation",
                     content = {
                             @Content(
                                     mediaType = "application/json",
