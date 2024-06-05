@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.hop.api.dto.CarHistoryDTO;
-import pl.hop.api.dto.CepikVehicleDTO;
 import pl.hop.api.dto.mapper.CarMapper;
 import pl.hop.business.CarService;
 

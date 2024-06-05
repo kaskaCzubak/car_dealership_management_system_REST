@@ -1,7 +1,6 @@
 package pl.hop.infrastructure.configuration;
 
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -13,7 +12,6 @@ import pl.hop.CarDealershipApplication;
 
 @Configuration
 public class SpringDocConfiguration {
-    //TODO konfiguracja aby stworzyć dokumentacje OpenApi w Swagger
 
     @Bean
     public GroupedOpenApi groupedOpenApi() {

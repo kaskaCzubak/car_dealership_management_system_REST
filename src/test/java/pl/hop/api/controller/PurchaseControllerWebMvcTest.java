@@ -52,7 +52,7 @@ class PurchaseControllerWebMvcTest {
     }
 
     @Test
-    void makeCarPurchaseWorksCorrectly() throws Exception { //metoda z PostMapping
+    void makeCarPurchaseWorksCorrectly() throws Exception {
         //given
         LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         CarPurchaseDTO carPurchaseDTO = CarPurchaseDTO.buildDefaultData();

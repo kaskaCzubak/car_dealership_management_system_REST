@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.hop.api.dto.CarPurchaseDTO;
-import pl.hop.api.dto.CarServiceRequestsDTO;
 import pl.hop.api.dto.CarsToBuyDTO;
 import pl.hop.api.dto.InvoiceDTO;
 import pl.hop.api.dto.mapper.CarPurchaseMapper;
@@ -52,8 +51,8 @@ public class PurchaseRestController {
      @GetMapping
      public CarsToBuyDTO carsPurchaseData() {
           return CarsToBuyDTO.builder()
-                  .carsToBuy(carPurchaseService.availableCars().stream() //TODO tutaj potrzebuje przekazać moje samochody czyli będę potrzebować serwisu i pozniej mappera
-                          .map(car -> carPurchaseMapper.map(car)) // TODO a->carPurchaseMapper.map(a)
+                  .carsToBuy(carPurchaseService.availableCars().stream()
+                          .map(carPurchaseMapper::map)
                           .toList())
                   .build();
      }

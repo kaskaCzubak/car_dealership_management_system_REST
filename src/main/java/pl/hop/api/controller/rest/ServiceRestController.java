@@ -7,19 +7,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.hop.api.dto.CarServiceCustomerRequestDTO;
 import pl.hop.api.dto.CarServiceRequestDTO;
 import pl.hop.api.dto.CarServiceRequestsDTO;
-import pl.hop.api.dto.InvoiceDTO;
 import pl.hop.api.dto.mapper.CarServiceRequestMapper;
 import pl.hop.business.CarServiceRequestService;
 import pl.hop.domain.CarServiceRequest;
 
-import java.util.Map;
 import java.util.List;
 
 @RestController

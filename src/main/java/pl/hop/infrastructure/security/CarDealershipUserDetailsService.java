@@ -24,7 +24,6 @@ public class CarDealershipUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("Próba załadowania(load) z nazwą użytkownika: '" + username + " '"); //TODO
         UserEntity user = userRepository.findByUserName(username);
         if(user == null){
             throw new UsernameNotFoundException("User not authorized.");

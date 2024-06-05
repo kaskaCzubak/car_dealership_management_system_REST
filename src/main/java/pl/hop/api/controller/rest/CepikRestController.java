@@ -16,7 +16,6 @@ import pl.hop.api.dto.CepikVehicleDTO;
 import pl.hop.api.dto.mapper.CepikVehicleMapperDto;
 import pl.hop.business.CepikService;
 
-
 import java.time.LocalDate;
 
 @RestController
@@ -55,7 +54,6 @@ public class CepikRestController {
     @GetMapping(value = CEPIK_RANDOM)
     public CepikVehicleDTO cepikRandomVehicle(
             @Parameter(description = "First vehicle registration date interval beginning")
-            //TODO @Parameter będzie wykorzystane przez dokumentację Swagger
             @RequestParam(value = "firstRegistrationDateFrom")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate firstRegistrationDateFrom,
             @Parameter(description = "First vehicle registration date interval ending")

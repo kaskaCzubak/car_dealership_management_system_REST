@@ -4,10 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,27 +22,6 @@ public class SecurityConfiguration  {
         return new BCryptPasswordEncoder();
     }
 
-//    TODO @Bean
-//    public DaoAuthenticationProvider authenticationProvider(
-//            PasswordEncoder passwordEncoder,
-//            UserDetailsService userDetailsService
-//    ) {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(passwordEncoder);
-//        provider.setUserDetailsService(userDetailsService);
-//        return provider;
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(
-//            HttpSecurity http,
-//            AuthenticationProvider authenticationProvider
-//    ) throws Exception {
-//        return http
-//                .getSharedObject(AuthenticationManagerBuilder.class)
-//                .authenticationProvider(authenticationProvider)
-//                .build();
-//    }
 
     @Bean
     public AuthenticationManager authManager(

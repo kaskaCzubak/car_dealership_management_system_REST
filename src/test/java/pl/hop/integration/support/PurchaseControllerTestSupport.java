@@ -10,7 +10,6 @@ import pl.hop.api.dto.InvoiceDTO;
 public interface PurchaseControllerTestSupport {
     RequestSpecification requestSpecification();
 
-    //TODO te dwie metody są potrzebne aby na serwerze znalezc te cars i na serwerze wywołać kupno car
     default InvoiceDTO purchaseCar(final CarPurchaseDTO carPurchaseDTO) {
         return requestSpecification()
                 .body(carPurchaseDTO)
@@ -19,7 +18,7 @@ public interface PurchaseControllerTestSupport {
                 .statusCode(HttpStatus.OK.value())
                 .and()
                 .extract()
-                .as(InvoiceDTO.class); //TODO takiego typu obiekt ma być użyty jako odpowiedz
+                .as(InvoiceDTO.class);
     }
 
     default CarsToBuyDTO findAvailableCars() {

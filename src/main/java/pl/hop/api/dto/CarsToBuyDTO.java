@@ -5,14 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CarsToBuyDTO {
-    //TODO ta lista to takie opakowanie dla naszej listy CarToBuy
 
     private List<CarToBuyDTO> carsToBuy;
 }

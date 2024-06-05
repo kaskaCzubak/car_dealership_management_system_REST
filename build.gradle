@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux' //TODO zależność potrzebna do klienta WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     //db
@@ -57,7 +57,6 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql'
 
     //integration test
-    // TODO Ta zależność musi być przed wiremock standalone
     testImplementation "org.slf4j:slf4j-api:${wiremockSlf4jVersion}"
     testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
     testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
@@ -69,8 +68,8 @@ dependencyManagement {
     }
 }
 
-// TODO http://www.cepik.gov.pl/interfejs-dla-cepik źródło naszego zewnętrznego API
-//TODO https://api.cepik.gov.pl/doc dokumentacja Swagger
+// https://api.cepik.gov.pl/doc
+
 openApiGenerate {
     generatorName = "java"
     library = "webclient"

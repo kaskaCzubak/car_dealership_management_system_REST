@@ -1,9 +1,8 @@
 package pl.hop.infrastructure.cepik;
 
+import org.springframework.stereotype.Component;
 import pl.hop.domain.CepikVehicle;
 import pl.hop.infrastructure.cepik.model.VehicleDto;
-
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -14,7 +13,7 @@ public class CepikVehicleMapper {
         var builder = CepikVehicle.builder()
                 .cepikId(id);
 
-        Optional.ofNullable(attributes) //TODO caly czas zabezpieczam sie prze nullami, bo nie wiemy co przyjdzie z naszego API
+        Optional.ofNullable(attributes)
                 .ifPresent(dto -> builder
                         .brand(dto.getMarka())
                         .model(dto.getModel())

@@ -1,5 +1,4 @@
 spring:
   security:
     enabled: false
-#    TODO nigdy tak nie robic bo moze przez przypadek wylaczyc security w aplikacji
-# teoretycznie dlatego został stworzony profil local żeby na produkcji nie wyłączać security
+

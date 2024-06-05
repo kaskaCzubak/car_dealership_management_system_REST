@@ -2,7 +2,7 @@ package pl.hop.infrastructure.cepik;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.hop.business.dao.CepikVehicleDao;
+import pl.hop.business.dao.CepikVehicleDAO;
 import pl.hop.domain.CepikVehicle;
 import pl.hop.domain.exception.NotFoundException;
 import pl.hop.infrastructure.cepik.api.PojazdyApi;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CepikVehicleClientImpl implements CepikVehicleDao {
+public class CepikVehicleClientImpl implements CepikVehicleDAO {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     private static final String VOIVODESHIP_KEY = "MAZOWIECKIE";
@@ -46,10 +46,10 @@ public class CepikVehicleClientImpl implements CepikVehicleDao {
                 .map(data -> data.stream()
                         .map(vehicleData -> cepikVehicleMapper.map(vehicleData.getId(), vehicleData.getAttributes()))
                         .toList())
-                .orElse(Collections.emptyList()); //TODO jesli optional bedzie pusty to pusta lista
+                .orElse(Collections.emptyList());
     }
 
-    private DictionaryDtoElement getDictionaryEntry() { //TODO DictionaryDtoElement to jest jakaś klasa wygenerowana
+    private DictionaryDtoElement getDictionaryEntry() {
         JsonApiForObjectDictionary dictionary = Optional.ofNullable(sownikiApi.getSlownik(VOIVODESHIP_DICTIONARY).block())
                 .orElseThrow(() -> new NotFoundException(
                         "Could not find dictionary definition for: [%s]"
@@ -58,8 +58,8 @@ public class CepikVehicleClientImpl implements CepikVehicleDao {
 
 
          return Optional.ofNullable(dictionary.getData())
-                .map(apiAttributesDtoDictionary -> apiAttributesDtoDictionary.getAttributes())
-                .map(dictionaryDto -> dictionaryDto.getDostepneRekordySlownika())
+                .map(ApiAttributesDtoDictionary::getAttributes)
+                .map(DictionaryDto::getDostepneRekordySlownika)
                 .flatMap(records -> records.stream()
                         .filter(record -> VOIVODESHIP_KEY.equals(record.getWartoscSlownika()))
                         .findAny())
@@ -81,7 +81,7 @@ public class CepikVehicleClientImpl implements CepikVehicleDao {
                 "50",
                 "1",
                 null
-        ).block()); //TODO tam gdzie wywoluje API musi być napisane .block(). To jest kwestia WebClienta którego używamy.
+        ).block());
     }
 
 }

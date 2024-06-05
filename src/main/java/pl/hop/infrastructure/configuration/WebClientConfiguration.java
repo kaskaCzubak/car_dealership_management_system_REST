@@ -16,12 +16,11 @@ import pl.hop.infrastructure.cepik.api.SownikiApi;
 @Configuration
 public class WebClientConfiguration {
 
-    @Value("${api.cepik.url}") // TODO @Value jest ze springa a nie Lomboka
-    private String cepikUrl; // TODO czyli adres jaki to api ma
+    @Value("${api.cepik.url}")
+    private String cepikUrl;
 
 
-    @Bean //TODO tutaj mamy klienta który przyjmuje ObjectMapper i zdefiniuje ExchangeStrategies, gdzie ten
-    // objectMapper ma być używany w komunikacji z naszym wewnętrznym API do zamiany jsonów na obiekty i odwrotnie
+    @Bean
     public WebClient webClient(final ObjectMapper objectMapper) {
         final var exchangeStrategies = ExchangeStrategies
                 .builder()
@@ -45,10 +44,7 @@ public class WebClientConfiguration {
                 .build();
     }
 
-//
-//        final var webClient = WebClient.builder()
-//                .exchangeStrategies(strategies)
-//                .build();
+
 
     @Bean
     public ApiClient apiClient(final WebClient webClient) {
@@ -57,7 +53,7 @@ public class WebClientConfiguration {
         return apiClient;
     }
 
-    //TODO te dwa poniższe beany zostały stworzone bo bedziemy wstrzykiwac sobie PojazdyAPi zeby komunikować się z API
+
     @Bean
     public PojazdyApi pojazdyApi(final ApiClient apiClient) {
         return new PojazdyApi(apiClient);

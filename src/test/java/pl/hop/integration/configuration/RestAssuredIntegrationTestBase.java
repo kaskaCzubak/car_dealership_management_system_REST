@@ -9,10 +9,10 @@ import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import pl.hop.integration.support.AuthenticationTestSupport;
 import pl.hop.integration.support.ControllerTestSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,12 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class RestAssuredIntegrationTestBase
         extends AbstractIT
-        implements ControllerTestSupport, AuthenticationTestSupport {
-    // TODO w tej klasie wpisaliśmy różne rzezcy które sa potrzebne żeby skonfigurować testy
+        implements ControllerTestSupport {
+
 
     protected static WireMockServer wireMockServer;
-
-    private String jSessionIdValue;
 
     @Autowired
     @SuppressWarnings("unused")
@@ -36,10 +34,9 @@ public abstract class RestAssuredIntegrationTestBase
         return objectMapper;
     }
 
-    @Test //TODO to jest weryfikaja czy Spring Contex wstał poprawnie
+    @Test
     void contextLoaded() {
-        assertThat(true).isTrue(); //ten test ma przejść zawsze, a on nam przejdzie jeżeli Context zostanie załadowany poprawnie inaczej mówiąc jak po prostu aplikacja wstanie
-        //TODO Assertions.assertTrue(true, "Context loaded"); inny sposób
+        assertThat(true).isTrue();
     }
 
 
@@ -47,34 +44,11 @@ public abstract class RestAssuredIntegrationTestBase
     static void beforeAll() {
         wireMockServer = new WireMockServer(
                 WireMockConfiguration.wireMockConfig()
-                        .port(9999) //TODO  ustawić port który będzie odpytywany zamiast naszego zewnętrznego API i extensions aby móc używać templatingu
+                        .port(9999)
                         .extensions(new ResponseTemplateTransformer(false))
         );
         wireMockServer.start();
     }
-
-//    @BeforeEach
-//    void beforeEach() { //TODO ta metoda jest zrobiona przez Security
-//        jSessionIdValue = login("test_user", "test")
-//                .and()
-//                .cookie("JSESSIONID")
-//                .header(HttpHeaders.LOCATION, "http://localhost:%s%s/".formatted(port, basePath))
-//                .extract()
-//                .cookie("JSESSIONID");
-//        //TODO po zalogowaniu wyciagniemy z odpowiedzi serwera wartość tego cookie sesyjnego,
-//        // a na końcu wylogujemy się po każdym teście i uzupełnimy się że to cookie będzie puste
-//    }
-
-
-//    @AfterEach
-//    void afterEach() {
-//        //TODO ta część jest zrobiona przez Security
-//        logout()
-//                .and()
-//                .cookie("JSESSIONID", "");
-//        jSessionIdValue = null;
-//        wireMockServer.resetAll();
-//    }
 
     @AfterAll
     static void afterAll() {
@@ -84,11 +58,10 @@ public abstract class RestAssuredIntegrationTestBase
     public RequestSpecification requestSpecification() {
         return restAssuredBase()
                 .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .cookie("JSESSIONID", jSessionIdValue);
+                .contentType(ContentType.JSON);
     }
 
-    //TODO ta metoda jest zrobiona przez Security
+
     public RequestSpecification requestSpecificationNoAuthentication() {
         return restAssuredBase();
     }
@@ -103,7 +76,7 @@ public abstract class RestAssuredIntegrationTestBase
                 .contentType(ContentType.JSON);
     }
 
-    private RestAssuredConfig getConfig() { //TODO metoda wykorzytywana po to żeby naszego objectMappera wykorzystać do mapowania jsonow na klasy i odwrotnie
+    private RestAssuredConfig getConfig() {
         return RestAssuredConfig
                 .config()
                 .objectMapperConfig(new ObjectMapperConfig()

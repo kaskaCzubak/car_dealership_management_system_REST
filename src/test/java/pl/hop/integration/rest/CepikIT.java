@@ -21,9 +21,9 @@ public class CepikIT
         // given
         LocalDate dateFrom = LocalDate.of(2022, 10, 10);
         LocalDate dateTo = LocalDate.of(2023, 10, 10);
-        stubForDictonary(wireMockServer); //stub jest w tej metodzie getDictionaryEntry() TODO
-        stubForVehicles(wireMockServer, dateFrom.toString(), dateTo.toString()); // callVehicles()
-        stubForVehicle(wireMockServer); //getCepikVehicle()
+        stubForDictonary(wireMockServer);
+        stubForVehicles(wireMockServer, dateFrom.toString(), dateTo.toString());
+        stubForVehicle(wireMockServer);
 
         // when
         CepikVehicleDTO randomVehicle1 = getCepikRandomVehicle(dateFrom, dateTo);
@@ -34,7 +34,6 @@ public class CepikIT
         CepikVehicleDTO randomVehicle6 = getCepikRandomVehicle(dateFrom, dateTo);
         CepikVehicleDTO randomVehicle7 = getCepikRandomVehicle(dateFrom, dateTo);
 
-        // TODO Set, żeby sprawdzić unikalność losowych wyników
         Set<CepikVehicleDTO> randomVehicles = new HashSet<>();
         randomVehicles.add(randomVehicle1);
         randomVehicles.add(randomVehicle2);

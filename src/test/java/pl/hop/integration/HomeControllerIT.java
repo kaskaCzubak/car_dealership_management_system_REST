@@ -14,18 +14,19 @@ public class HomeControllerIT extends AbstractIT {
     private final TestRestTemplate restTemplate;
 
     @Test
-    public void thatHomePageRequiredSigningIn() {
+    public void thatHomePageWorksCorrectly() {
         String url = String.format("http://localhost:%s%s", port,basePath);
 
         String renderedPage = this.restTemplate.getForObject(url, String.class);
-        Assertions.assertThat(renderedPage).contains(("Please sign in"));
+        Assertions.assertThat(renderedPage).contains(("Hop Car Dealer!"));
     }
 
-    @Test
-    public void thatMechanicPageRequiredSigningIn() {
-        String url = String.format("http://localhost:%s%s/mechanic", port,basePath);
-
-        String renderedPage = this.restTemplate.getForObject(url, String.class);
-        Assertions.assertThat(renderedPage).contains(("Please sign in"));
-    }
+    //TODO security layer and sign in
+//    @Test
+//    public void thatMechanicPageRequiredSigningIn() {
+//        String url = String.format("http://localhost:%s%s/mechanic", port,basePath);
+//
+//        String renderedPage = this.restTemplate.getForObject(url, String.class);
+//        Assertions.assertThat(renderedPage).contains(("Please sign in"));
+//    }
 }

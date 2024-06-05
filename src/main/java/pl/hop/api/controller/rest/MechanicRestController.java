@@ -1,8 +1,6 @@
 package pl.hop.api.controller.rest;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.hop.api.dto.CarServiceMechanicProcessingUnitDTO;
 import pl.hop.api.dto.CarServiceRequestDTO;
 import pl.hop.api.dto.CarServiceRequestsDTO;
-import pl.hop.api.dto.CepikVehicleDTO;
 import pl.hop.api.dto.mapper.CarServiceRequestMapper;
 import pl.hop.business.CarServiceProcessingService;
 import pl.hop.business.CarServiceRequestService;
@@ -75,7 +72,7 @@ public class MechanicRestController {
                     content = @Content),
 
     })
-    @PostMapping(value = MECHANIC_WORK_UNIT)// TODO Mechanik wykonujący pracę będzie wysyłał request body na ten endpoint
+    @PostMapping(value = MECHANIC_WORK_UNIT)
     public CarServiceRequestsDTO mechanicPerformWorkUnit(
             @Valid
             @RequestBody CarServiceMechanicProcessingUnitDTO processingUnitDTO

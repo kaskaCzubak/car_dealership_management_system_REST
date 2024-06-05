@@ -37,7 +37,5 @@ class CarToBuyJpaRepositoryTest {
         Assertions.assertThat(availableCars).hasSize(9);
     }
 
-    @Test //TODO
-    void findByVin() {
-    }
+
 }

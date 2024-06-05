@@ -3,20 +3,22 @@ package pl.hop.business;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.hop.business.dao.CepikVehicleDao;
+import pl.hop.business.dao.CepikVehicleDAO;
 import pl.hop.domain.CepikVehicle;
 import pl.hop.domain.exception.NotFoundException;
 import pl.hop.domain.exception.ProcessingException;
 
-import java.util.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class CepikService {
 
-    private final CepikVehicleDao cepikVehicleDao;
+    private final CepikVehicleDAO cepikVehicleDao;
 
     public CepikVehicle findRandom(final LocalDate dateFrom, final LocalDate dateTo) {
         log.debug("Looking for random CEPIK vehicle, first registration between: [{}] and: [{}]", dateFrom, dateTo);
@@ -29,8 +31,6 @@ public class CepikService {
         }
 
         return Optional.ofNullable(cepikVehicles.get(new Random().nextInt(cepikVehicles.size())))
-                //TODO z takiego zakresu wyciagne sobie losowy samochód
-                //newRandom() można zaimplementować jako stream i findAny()
                 .map(anyVehicle -> cepikVehicleDao.getCepikVehicle(anyVehicle.getCepikId()))
                 .orElseThrow(() -> new NotFoundException("Could not find random CEPIK vehicle"));
     }

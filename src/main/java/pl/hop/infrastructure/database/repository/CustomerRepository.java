@@ -1,5 +1,6 @@
 package pl.hop.infrastructure.database.repository;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import pl.hop.business.dao.CustomerDAO;
@@ -38,6 +39,7 @@ public class CustomerRepository implements CustomerDAO {
     }
 
     @Override
+    @Transactional
     public void issueInvoice(Customer customer) {
         CustomerEntity customerToSave = customerEntityMapper.mapToEntity(customer);
         CustomerEntity customerSaved = customerJpaRepository.saveAndFlush(customerToSave);

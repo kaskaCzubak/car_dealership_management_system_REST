@@ -5,7 +5,7 @@ api:
 spring:
   security:
     enabled: false
-#  TODO wyłączenie security nie robic tak przy pushu do repo tylko lokalnie
+#  TODO just for the tests before security implementation
   jpa:
     hibernate:
       ddl-auto: validate

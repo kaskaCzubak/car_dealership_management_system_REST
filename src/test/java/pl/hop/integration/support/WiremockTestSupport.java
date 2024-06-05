@@ -1,7 +1,6 @@
 package pl.hop.integration.support;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,7 +21,6 @@ public interface WiremockTestSupport {
     default void stubForDictonary(WireMockServer wireMockServer) {
         wireMockServer.stubFor(
                 get(urlPathMatching("/slowniki/wojewodztwa"))
-                        //TODO Jeżeli GET zostanie wywołany na endpoint /slowniki/wojewodztwa to ma zostać zwrócony
                         .willReturn(aResponse()
                                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                                 .withBodyFile("wiremock/slowniki-wojewodztwa.json")));
@@ -31,8 +29,6 @@ public interface WiremockTestSupport {
     default void stubForVehicles(WireMockServer wireMockServer, String dateFrom, String dateTo) {
         Map<String, StringValuePattern> queryParamsPattern = Map.of(
                 "data-od", equalTo(dateFrom.replace("-", "")),
-                // TODO metoda equalTo() jest z klasy WireMock
-                //  LocalDate.toString() 2022-10-10 a Cepik wymaga formatu 20221010
                 "data-do", equalTo(dateTo.replace("-", ""))
         );
         wireMockServer.stubFor(get(urlPathEqualTo("/pojazdy"))
