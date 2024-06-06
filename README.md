@@ -63,7 +63,7 @@ This API enables users to carry out a variety of operations related to car servi
 
 ## Security Considerations🔒
 
-The implementation of security in this project is at a very basic level and is not intended to be used in a production environment. The current security setup uses session-based authentication with cookies, which is stateful, while RESTful applications are inherently stateless. This implementation serves as a conceptual introduction to Spring Security and demonstrates basic ideas of authentication and authorization.
+The configuration of Spring Security here is greatly simplified to show an understanding of security mechanisms and is not intended to be used in a production environment. The current security setup uses session-based authentication with cookies, which is stateful, while RESTful applications are inherently stateless. This implementation serves as a conceptual introduction to Spring Security and demonstrates basic ideas of authentication and authorization. It’s an easier approach compared to token-based authentication but less secure and scalable.
 
 I am ready to further develop this skill and gain more knowledge in professional settings to implement more secure and scalable security solutions.
 
